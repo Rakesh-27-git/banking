@@ -31,7 +31,6 @@ const AuthForm = ({ type }: { type: string }) => {
     },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoaing(true);
 
@@ -39,16 +38,16 @@ const AuthForm = ({ type }: { type: string }) => {
       // Sign up with Appwrite and create a plaid toke
 
       if (type === "sign-up") {
-        // const newUser = await signUp(data);
-        // setUser(newUser);
+        const newUser = await signUp(data);
+        setUser(newUser);
       }
 
       if (type === "sign-in") {
-        // const response = await signIn({
-        //   email: data.email,
-        //   password: data.password,
-        // });
-        // if (response) router.push("/");
+        const response = await signIn({
+          email: data.email,
+          password: data.password,
+        });
+        if (response) router.push("/");
       }
     } catch (error) {
       console.error(error);
@@ -90,7 +89,7 @@ const AuthForm = ({ type }: { type: string }) => {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              {type === "sign-in" && (
+              {type === "sign-up" && (
                 <>
                   <div className="flex gap-4">
                     <CustomInput
@@ -109,7 +108,7 @@ const AuthForm = ({ type }: { type: string }) => {
                   <CustomInput
                     control={form.control}
                     name="address1"
-                    label="Address"
+                    label="Address1"
                     placeholder="Enter your specific address"
                   />
                   <CustomInput
